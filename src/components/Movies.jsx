@@ -14,45 +14,40 @@ export default function MovieSlider({ title, endpoint, onPlayTrailer }) {
 
   const scroll = (dir) => {
     sliderRef.current.scrollBy({
-      left: dir === "left" ? -450 : 450,
+      left: dir === "left" ? -900 : 900,
       behavior: "smooth",
     });
   };
 
   return (
-    <div className="px-6 py-6 relative">
-      <h2 className="text-white text-xl md:text-2xl font-bold mb-4">
+    <div className="px-12 py-8 relative">
+      <h2 className="text-white text-xl md:text-2xl font-bold mb-6 hover:text-gray-300 transition-colors">
         {title}
       </h2>
 
       <div className="relative group">
-        {/* Left Fade */}
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-black to-transparent z-10" />
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-[#141414] to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-[#141414] to-transparent z-10" />
 
-        {/* Right Fade */}
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-black to-transparent z-10" />
-
-        {/* Left Button */}
         <button
           onClick={() => scroll("left")}
-          className="hidden group-hover:flex absolute left-2 top-1/2 -translate-y-1/2 z-20
-                     w-12 h-12 rounded-full bg-black/70 hover:bg-black
-                     items-center justify-center text-white text-2xl backdrop-blur">
+          className="hidden group-hover:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20
+                     w-14 h-full bg-black/80 hover:bg-black/90
+                     items-center justify-center text-white text-4xl font-light">
           ‹
         </button>
 
-        {/* Movies */}
         <div
           ref={sliderRef}
-          className="flex gap-5 overflow-x-scroll scrollbar-hide scroll-smooth"
+          className="flex gap-2 overflow-x-scroll scrollbar-hide scroll-smooth px-12"
         >
           {movies.map((movie) => (
             <div
               key={movie.id}
               onClick={() => onPlayTrailer(movie.id)}
-              className="relative min-w-[160px] md:min-w-[200px] lg:min-w-[220px]
-                         cursor-pointer transition-all duration-300
-                         hover:scale-110 hover:z-20"
+              className="relative min-w-[150px] md:min-w-[200px] lg:min-w-[250px]
+                         cursor-pointer transition-all duration-300 ease-in-out
+                         hover:scale-125 hover:z-30 group/card"
             >
               <img
                 src={
@@ -61,28 +56,31 @@ export default function MovieSlider({ title, endpoint, onPlayTrailer }) {
                     : "/no-poster.png"
                 }
                 alt={movie.title}
-                className="rounded-xl shadow-lg"
+                className="w-full h-full object-cover rounded-sm"
               />
 
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 rounded-xl
-                              bg-gradient-to-t from-black/90 via-black/20 to-transparent
-                              opacity-0 hover:opacity-100 transition-opacity">
-                <p className="absolute bottom-3 left-3 right-3
-                              text-sm font-semibold text-white line-clamp-2">
+              <div className="absolute inset-0 rounded-sm
+                              bg-gradient-to-t from-black via-transparent to-transparent
+                              opacity-0 group-hover/card:opacity-100 transition-opacity duration-300
+                              flex flex-col justify-end p-4">
+                <p className="text-sm font-bold text-white mb-1 line-clamp-2">
                   {movie.title}
                 </p>
+                <div className="flex items-center gap-2 text-xs text-gray-300">
+                  <span className="text-green-500 font-bold">
+                    {Math.round(movie.vote_average * 10)}% Match
+                  </span>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Right Button */}
         <button
           onClick={() => scroll("right")}
-          className="hidden group-hover:flex absolute right-2 top-1/2 -translate-y-1/2 z-20
-                     w-12 h-12 rounded-full bg-black/70 hover:bg-black
-                     items-center justify-center text-white text-2xl backdrop-blur">
+          className="hidden group-hover:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20
+                     w-14 h-full bg-black/80 hover:bg-black/90
+                     items-center justify-center text-white text-4xl font-light">
           ›
         </button>
       </div>

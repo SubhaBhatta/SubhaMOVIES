@@ -11,19 +11,17 @@ const App = () => {
 
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-black transition-colors duration-300">
+      <div className="flex flex-col min-h-screen bg-[#141414]">
         <Navbar setSearchResults={setSearchResults} />
 
-        <main className="flex-1 w-full px-4 sm:px-8 lg:px-16 py-8">
-          <div className="max-w-7xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-md">
-            <Routes>
-              <Route
-                path="/"
-                element={<HomePage searchResults={searchResults} />}
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
+        <main className="flex-1 w-full">
+          <Routes>
+            <Route
+              path="/"
+              element={<HomePage searchResults={searchResults} />}
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </main>
 
         <Footer />
