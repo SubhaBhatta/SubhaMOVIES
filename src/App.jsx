@@ -5,6 +5,7 @@ import Navbar from "./layout/navbar.jsx";
 import Footer from "./layout/footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Home from "./pages/firstpage.jsx"
 
 const App = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -16,8 +17,9 @@ const App = () => {
 
         <main className="flex-1 w-full">
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route
-              path="/"
+              path="homepage"
               element={<HomePage searchResults={searchResults} />}
             />
             <Route path="*" element={<NotFound />} />
