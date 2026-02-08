@@ -13,42 +13,50 @@ export default function MovieSlider({ title, endpoint, onPlayTrailer }) {
   }, [endpoint]);
 
   const scroll = (dir) => {
+    const amount =
+      window.innerWidth < 768 ? 300 : window.innerWidth < 1024 ? 600 : 900;
+
     sliderRef.current.scrollBy({
-      left: dir === "left" ? -900 : 900,
+      left: dir === "left" ? -amount : amount,
       behavior: "smooth",
     });
   };
 
   return (
-    <div className="px-12 py-8 relative">
-      <h2 className="text-white text-xl md:text-2xl font-bold mb-6 hover:text-gray-300 transition-colors">
+    <section className="relative px-4 md:px-10 lg:px-14 py-6">
+      <h2 className="text-white text-lg md:text-xl font-semibold mb-4">
         {title}
       </h2>
 
       <div className="relative group">
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-[#141414] to-transparent z-10" />
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-[#141414] to-transparent z-10" />
+        {/* fade edges */}
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-black to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-black to-transparent z-10" />
 
+        {/* left arrow */}
         <button
           onClick={() => scroll("left")}
-          className="hidden group-hover:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20
-                     w-14 h-full bg-black/80 hover:bg-black/90
-                     items-center justify-center text-white text-4xl font-light">
+          className="hidden group-hover:flex absolute left-2 top-1/2 -translate-y-1/2 z-20
+                     w-10 h-10 rounded-full bg-black/70 hover:bg-black
+                     items-center justify-center text-white text-2xl"
+        >
           ‹
         </button>
 
+        {/* slider */}
         <div
           ref={sliderRef}
-          className="flex gap-2 overflow-x-scroll scrollbar-hide scroll-smooth px-12"
+          className="flex gap-3 overflow-x-scroll scrollbar-hide scroll-smooth"
         >
           {movies.map((movie) => (
             <div
               key={movie.id}
               onClick={() => onPlayTrailer(movie.id)}
-              className="relative min-w-[150px] md:min-w-[200px] lg:min-w-[250px]
-                         cursor-pointer transition-all duration-300 ease-in-out
-                         hover:scale-125 hover:z-30 group/card"
+              className="relative min-w-[140px] md:min-w-[180px] lg:min-w-[220px]
+                         h-[210px] md:h-[260px] lg:h-[320px]
+                         cursor-pointer"
             >
+              {/* poster */}
               <img
                 src={
                   movie.poster_path
@@ -56,34 +64,37 @@ export default function MovieSlider({ title, endpoint, onPlayTrailer }) {
                     : "/no-poster.png"
                 }
                 alt={movie.title}
-                className="w-full h-full object-cover rounded-sm"
+                className="w-full h-full object-cover rounded-md"
               />
 
-              <div className="absolute inset-0 rounded-sm
-                              bg-gradient-to-t from-black via-transparent to-transparent
-                              opacity-0 group-hover/card:opacity-100 transition-opacity duration-300
-                              flex flex-col justify-end p-4">
-                <p className="text-sm font-bold text-white mb-1 line-clamp-2">
+              {/* hover overlay ONLY */}
+              <div
+                className="absolute inset-0 rounded-md
+                           bg-gradient-to-t from-black/90 via-black/40 to-transparent
+                           opacity-0 hover:opacity-100 transition-opacity duration-300
+                           flex flex-col justify-end p-3"
+              >
+                <p className="text-sm font-semibold text-white line-clamp-2">
                   {movie.title}
                 </p>
-                <div className="flex items-center gap-2 text-xs text-gray-300">
-                  <span className="text-green-500 font-bold">
-                    {Math.round(movie.vote_average * 10)}% Match
-                  </span>
-                </div>
+                <span className="text-xs text-green-400 font-bold mt-1">
+                  {Math.round(movie.vote_average * 10)}% Match
+                </span>
               </div>
             </div>
           ))}
         </div>
 
+        {/* right arrow */}
         <button
           onClick={() => scroll("right")}
-          className="hidden group-hover:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20
-                     w-14 h-full bg-black/80 hover:bg-black/90
-                     items-center justify-center text-white text-4xl font-light">
+          className="hidden group-hover:flex absolute right-2 top-1/2 -translate-y-1/2 z-20
+                     w-10 h-10 rounded-full bg-black/70 hover:bg-black
+                     items-center justify-center text-white text-2xl"
+        >
           ›
         </button>
       </div>
-    </div>
+    </section>
   );
 }
